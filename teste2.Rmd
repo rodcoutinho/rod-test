@@ -1,0 +1,256 @@
+---
+title: "Trabalho entrega"
+output: html_document
+
+
+
+
+---
+```{r}
+
+library(tidyverse)
+#library(missForest) #gerar dados ausentes
+library(finalfit) #vizualização de dados ausentes
+library(mice) #pacote para imputação de dados
+
+
+
+#Carrego os dados 
+basecredito <- read.csv("CC GENERAL (1).csv")
+
+summary(basecredito)
+```
+```{r}
+
+library(summarytools)
+descr(basecredito)
+
+```
+
+
+
+```{r}
+
+#scatter matrix plot
+plot(basecredito , pch=20 , cex=1.5 , col="#69b3a2")
+
+```
+```{r}
+
+ggpairs(basecredito)
+
+```
+
+
+
+```{r}
+
+#scatter matrix plot
+plot(basecredito , pch=20 , cex=1.5 )
+
+```
+
+```{r}
+
+
+ggplot(basecredito, aes(basecredito$Month , basecredito$BALANCE, group=Month)) +
+  geom_line(color="blue",linetype = "dashed")+
+  geom_point()
+
+
+```
+
+
+```{r}
+
+
+ggplot(basecredito, aes(basecredito$Month , basecredito$PURCHASES, group=7)) +
+  geom_line(color="black",linetype = "dashed")+
+  geom_point()
+
+
+```
+
+
+```{r}
+
+
+ggplot(basecredito, aes(basecredito$Month , basecredito$ONEOFF_PURCHASES, group=1)) +
+  geom_line(color="black",linetype = "dashed")+
+  geom_point()
+
+
+```
+
+
+
+```{r}
+
+
+ggplot(basecredito, aes(basecredito$Month , basecredito$CREDIT_LIMIT, group=1)) +
+  geom_line(color="black",linetype = "dashed")+
+  geom_point()
+
+
+```
+
+```{r}
+
+
+ggplot(basecredito, aes(basecredito$Month , basecredito$PAYMENTS, group=8)) +
+  geom_line(color="black",linetype = "dashed")+
+  geom_point()
+
+
+```
+
+```{r}
+
+
+ggplot(basecredito, aes(basecredito$Month , basecredito$MINIMUM_PAYMENTS, group=8)) +
+  geom_line(color="black",linetype = "dashed")+
+  geom_point()
+
+
+```
+
+```{r}
+
+
+ggplot(basecredito, aes(basecredito$Month , basecredito$Month, group=8)) +
+  geom_line(color="black",linetype = "dashed")+
+  geom_point()
+
+
+```
+
+```{r}
+
+
+ggplot(basecredito, aes(basecredito$Month , basecredito$Sex, group=8)) +
+  geom_line(color="black",linetype = "dashed")+
+  geom_point()
+
+
+```
+
+
+
+```{r}
+
+
+library(ggpubr)
+qplot( sample = BALANCE , data = basecredito)+ theme_minimal()
+
+
+```
+
+
+```{r}
+
+
+library(ggpubr)
+qplot( sample = PURCHASES , data = basecredito)+ theme_minimal()
+
+
+```
+
+
+```{r}
+
+
+library(ggpubr)
+qplot( sample = ONEOFF_PURCHASES , data = basecredito)+ theme_minimal()
+
+
+```
+
+
+
+```{r}
+
+
+library(ggpubr)
+qplot( sample = CREDIT_LIMIT , data = basecredito)+ theme_minimal()
+
+
+```
+
+
+```{r}
+
+
+library(ggpubr)
+qplot( sample = PAYMENTS , data = basecredito)+ theme_minimal()
+
+
+```
+
+
+
+```{r}
+
+
+library(ggpubr)
+qplot( sample = MINIMUM_PAYMENTS , data = basecredito)+ theme_minimal()
+
+
+```
+```{r}
+
+
+library(ggpubr)
+qplot( sample = MINIMUM_PAYMENTS , data = basecredito)+ theme_minimal()
+
+
+```
+
+
+```{r}
+
+
+
+shapiro.test(as.numeric(basecredito$BALANCE[0:500]))
+shapiro.test(as.numeric(basecredito$PURCHASES[0:500]))
+shapiro.test(as.numeric(basecredito$ONEOFF_PURCHASES [0:500]))
+shapiro.test(as.numeric(basecredito$CREDIT_LIMIT [0:500]))
+shapiro.test(as.numeric(basecredito$PAYMENTS [0:500]))
+shapiro.test(as.numeric(basecredito$MINIMUM_PAYMENTS [0:500]))
+
+
+```
+
+```{r}
+
+
+library(mice) #pacote para imputação de dados
+
+data("basecredito")
+head(basecredito)
+
+tempData <- complete(mice(basecredito,                                 # Predictive mean matching imputation
+                          m = 1,
+                          method = "pmm"))
+summary(tempData)
+
+```
+
+
+
+
+```{r}
+
+
+summary(basecredito)
+
+```
+```{r}
+
+
+summary(tempData)
+
+```
+
+
+
+
